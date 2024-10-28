@@ -10,10 +10,11 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: ["https://your-frontend-url.vercel.app"], // Replace with your actual frontend domain
+  origin: ["https://frontend-demo-coral.vercel.app/"], // Replace with your actual frontend domain
   methods: ['GET', 'POST'],
   credentials: true
 }));
+// app.use(cors());
 
 // Routes
 readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)));
