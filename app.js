@@ -7,13 +7,21 @@ require('dotenv').config()
 //to configure the router 
 const{readdirSync} = require('fs')
 const { route } = require('./routes/transactions')
+const { default: mongoose } = require('mongoose')
 const app = express()
 const PORT = process.env.PORT
 
 //middleware...
 app.use(express.json())
 
-app.use(cors())  // Allows all domains to access the API
+//app.use(cors())  // Allows all domains to access the API
+app.use(cors({
+    origin:["https://deploy-mern-1whq.vercel.app"],
+    methods:['POST','GET'],
+    credentials:true
+}))
+
+mongoose.connect('mongodb+srv://ritiksharma555598:ritiksharma@cluster0.ovlax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
 
 app.get('/', (req, res)=>{
