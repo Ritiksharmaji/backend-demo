@@ -14,13 +14,14 @@ const PORT = process.env.PORT
 //middleware...
 app.use(express.json())
 
-//app.use(cors())  // Allows all domains to access the API
-app.use(cors({
-    origin: ["https://frontend-demo-coral.vercel.app/"], // Replace with your actual frontend domain
-    methods: ['POST', 'GET'],
-    credentials: true
-}));
+app.use(cors())  // Allows all domains to access the API
+// app.use(cors({
+//     origin:["https://deploy-mern-1whq.vercel.app"],
+//     methods:['POST','GET'],
+//     credentials:true
+// }))
 
+mongoose.connect('mongodb+srv://ritiksharma555598:ritiksharma@cluster0.ovlax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
 
 app.get('/', (req, res)=>{
