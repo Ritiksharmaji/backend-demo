@@ -21,8 +21,6 @@ app.use(cors())  // Allows all domains to access the API
 //     credentials:true
 // }))
 
-mongoose.connect('mongodb+srv://ritiksharma555598:ritiksharma@cluster0.ovlax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-
 
 app.get('/', (req, res)=>{
     res.send("hello Ritik bhai how are you !!!")
