@@ -1,42 +1,29 @@
+const express = require('express');
+const cors = require('cors');
+const { db } = require('./db/db');
+const { readdirSync } = require('fs');
+require('dotenv').config();
 
-const express = require('express')
-const cors = require('cors')
-const { db } = require('./db/db')
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-require('dotenv').config()
-//to configure the router 
-const{readdirSync} = require('fs')
-const { route } = require('./routes/transactions')
-const { default: mongoose } = require('mongoose')
-const app = express()
-const PORT = process.env.PORT
+// Middleware
+app.use(express.json());
+app.use(cors({
+  origin: ["https://your-frontend-url.vercel.app"], // Replace with your actual frontend domain
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 
-//middleware...
-app.use(express.json())
+// Routes
+readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)));
 
-app.use(cors())  // Allows all domains to access the API
-// app.use(cors({
-//     origin:["https://deploy-mern-1whq.vercel.app"],
-//     methods:['POST','GET'],
-//     credentials:true
-// }))
+// Start server and connect to MongoDB
+const server = () => {
+  db(); // Connect to MongoDB
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+};
 
-mongoose.connect('mongodb+srv://ritiksharma555598:ritiksharma@cluster0.ovlax.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-
-
-app.get('/', (req, res)=>{
-    res.send("hello Ritik bhai how are you !!!")
-})
-// to configure the router 
-readdirSync('./routes').map((route)=>app.use('/api/v1', require('./routes/' + route)))
-
-const server = ()=>{
-    //console.log("server stated at 5000")
-    // to connet the mongodb
-    db();
-    app.listen(PORT, ()=>{
-        console.log("listeing to port:", PORT)
-    })
-
-}
-server()
+server();
