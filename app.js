@@ -1,32 +1,34 @@
-const express = require('express');
-const cors = require('cors');
-const { db } = require('./db/db');
-const { readdirSync } = require('fs');
-require('dotenv').config();
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const express = require('express')
+const cors = require('cors')
+const { db } = require('./db/db')
 
-// Middleware
-app.use(express.json());
-// app.use(cors({
-//   origin: ["https://frontend-demo-coral.vercel.app/"], // Replace with your actual frontend domain
-//   methods: ['GET', 'POST'],
-//   credentials: true
-// }));
-app.use(cors());
-db(); // Connect to MongoDB
-// Routes
-// readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)));
-app.use("/api/v1", router);
-app.use("/api/v1", empRouter);
+require('dotenv').config()
+//to configure the router 
+const{readdirSync} = require('fs')
+const { route } = require('./routes/transactions')
+const app = express()
+const PORT = process.env.PORT
 
-// Start server and connect to MongoDB
-const server = () => {
+//middleware...
+app.use(express.json())
 
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-};
+app.use(cors())  // Allows all domains to access the API
 
-server();
+
+app.get('/', (req, res)=>{
+    res.send("hello Ritik bhai how are you !!!")
+})
+// to configure the router 
+readdirSync('./routes').map((route)=>app.use('/api/v1', require('./routes/' + route)))
+
+const server = ()=>{
+    //console.log("server stated at 5000")
+    // to connet the mongodb
+    db();
+    app.listen(PORT, ()=>{
+        console.log("listeing to port:", PORT)
+    })
+
+}
+server()
