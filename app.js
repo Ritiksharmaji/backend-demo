@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { db } = require('./db/db');
+const { getIncomes } = require('./controllers/income')
 const { readdirSync } = require('fs');
 require('dotenv').config();
 
@@ -20,6 +21,7 @@ app.use(cors());
 // readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)));
 app.use("/api/v1", router);
 app.use("/api/v1", empRouter);
+app.get("/api/v1/get-incomes",getIncomes);
 
 // Start server and connect to MongoDB
 const server = () => {
